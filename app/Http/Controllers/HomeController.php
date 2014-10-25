@@ -23,4 +23,12 @@ class HomeController extends Controller {
 		return view('hello');
 	}
 
+	/**
+	 * @Get("/desks")
+	 */
+	public function data()
+	{
+		return array('test');
+	}
+
 }

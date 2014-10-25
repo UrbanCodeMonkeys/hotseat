@@ -1,0 +1,109 @@
+@import url(http://fonts.googleapis.com/css?family=Montserrat:400,700);
+
+@import 'version';
+@import 'vars';
+@import 'mixins';
+
+// * Only styles common for all screen sizes
+body {
+  background: $white;
+  color: $text;
+  margin: 0;
+  font-family: $body-font;
+}
+
+header {
+	background-color: $header;
+	padding: 20px;
+	margin-bottom: 100px;
+}
+
+.week-container {
+	border-top: 1px solid $border;
+	border-left: 1px solid $border;
+	position: relative;
+	.navigator {
+		background-color: $border;
+		display: block;
+	    height: 83px;
+	    position: absolute;
+	    width: 24px;
+	    i {
+			background: url(../img/arrow.svg) no-repeat scroll 0 -2px / 25px 21px rgba(0, 196, 158, 0);
+			display: block;
+		    height: 18px;
+		    text-indent: -9999px;
+		    width: 24px;
+		    margin-top: 30px;
+	    }
+	    &.left {
+	    	left: -25px;
+		    top: -1px;
+	    }
+	    &.right {
+	    	right: -24px;
+		    top: -1px;
+		    i {
+		    	transform: rotate(180deg);
+			}
+	    }
+	}
+	.header {
+		color: $subtext;
+		.range {
+			float: left;
+    		width: 640px;
+    		text-align: center;
+    		height: 40px;
+    		border-bottom: 1px solid $border;
+    		border-right: 1px solid $border;
+    		padding-top: 10px;
+    		@include box-sizing();
+		}
+		.details-head {
+			float: left;
+			width: 299px;
+			border-bottom: 1px solid $border;
+			border-right: 1px solid $border;
+			margin-bottom: -1px;
+			@include box-sizing();
+			padding: 30px;
+		}
+		.date {
+			text-align: center;
+			@include box-sizing();
+			border-right: 1px solid $border;
+			border-bottom: 1px solid $border;
+		    float: left;
+		    height: 41px;
+		    width: 128px;
+		    padding-top: 10px;
+		}
+	}
+	.details {
+		float: left;
+		width: 299px;
+		border-bottom: 1px solid $border;
+		border-right: 1px solid $border;
+		margin-bottom: -1px;
+		@include box-sizing();
+		padding: 30px;
+	}
+	.day {
+		@include box-sizing();
+		border-right: 1px solid $border;
+		border-bottom: 1px solid $border;
+	    float: left;
+	    height: 82px;
+	    width: 128px;
+	    .assignment {
+	    	background-color: orange;
+	    	color: white;
+	    	height: 100%;
+	    	span {
+	    		line-height: 78px;
+	    		margin-left: 10px;
+	    	}
+	    }
+	}
+}
