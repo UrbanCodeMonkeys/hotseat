@@ -100,6 +100,10 @@ return [
 		 */
 		'App\Providers\EventServiceProvider',
 		'App\Providers\RouteServiceProvider',
+		'App\Providers\DeskServiceProvider',
+		'App\Providers\BookingServiceProvider',
+		'App\Providers\UserServiceProvider',
+
 
 		/*
 		 * Laravel Framework Service Providers...
