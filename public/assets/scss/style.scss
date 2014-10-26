@@ -52,7 +52,7 @@ header {
 		color: $subtext;
 		.range {
 			float: left;
-    		width: 640px;
+    		width: 639px;
     		text-align: center;
     		height: 40px;
     		border-bottom: 1px solid $border;
@@ -75,8 +75,8 @@ header {
 			border-right: 1px solid $border;
 			border-bottom: 1px solid $border;
 		    float: left;
-		    height: 41px;
-		    width: 128px;
+		    height: 42px;
+		    width: 91px;
 		    padding-top: 10px;
 		}
 	}
@@ -88,6 +88,7 @@ header {
 		margin-bottom: -1px;
 		@include box-sizing();
 		padding: 30px;
+		height: 82px;
 	}
 	.day {
 		@include box-sizing();
@@ -95,11 +96,20 @@ header {
 		border-bottom: 1px solid $border;
 	    float: left;
 	    height: 82px;
-	    width: 128px;
-	    .assignment {
+	    width: 91px	;    
+	}
+	.allocation {
+		float: left;
+   		position: relative;	
+		.assignment {
 	    	background-color: orange;
 	    	color: white;
 	    	height: 100%;
+	    	width: 91px;
+	    	height: 81px;
+	    	left: 0;
+		    position: absolute;
+		    top: 0;
 	    	span {
 	    		line-height: 78px;
 	    		margin-left: 10px;

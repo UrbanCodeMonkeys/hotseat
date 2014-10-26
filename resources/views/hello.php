@@ -7,6 +7,8 @@
     <script src="/components/angular/angular.js"></script>
     <script src="/components/angular-route/angular-route.js"></script>
     <script src="/components/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="/components/moment/moment.js"></script>
+    <script src="/components/angular-moment/angular-moment.js"></script>
 
     <script src="/assets/js/app/app.js"></script>
     <script src="/assets/js/app/week/controller.js"></script>
