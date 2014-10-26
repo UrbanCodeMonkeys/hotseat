@@ -5,43 +5,29 @@
 			<a href="#" class="navigator right"><i></i></a>
 			<div class="header">
 				<div class="details-head">
-					London Office
-					Desk One
+					Desks
 				</div>
 				<div class="days">
 					<div class="range">
-						<span>14 - 18 Oct</span>
+						<span>{{ days[0] | date : 'd'}} - {{ days[6] | date : 'd'}} Oct</span>
 					</div>
-					<div class="date">14</div>
-					<div class="date">15</div>
-					<div class="date">16</div>
-					<div class="date">17</div>
-					<div class="date">18</div>
+					<div ng-repeat="day in days" class="date">{{ day | date : 'd'}}</div>
 				</div>
 			</div>
-			<div class="desk">
+			<div ng-repeat="desk in desks" class="desk">
 				<div class="details">
-					London Office
-					Desk One
+					{{ desk.location }}
 				</div>
-				<div class="day"><div class="assignment"><span>Android</span></div></div>
-				<div class="day"></div>
-				<div class="day"></div>
-				<div class="day"></div>
-				<div class="day"></div>
-				<div class="clear"></div>
-			</div>
-
-			<div class="desk">
-				<div class="details">
-					London Office
-					Desk One
+				<div class="allocation">
+					<div ng-repeat="assignment in desk.bookings" class="assignment"><span>Android</span></div>
+					<div class="day"></div>
+					<div class="day"></div>
+					<div class="day"></div>
+					<div class="day"></div>
+					<div class="day"></div>
+					<div class="day"></div>
+					<div class="day"></div>
 				</div>
-				<div class="day"></div>
-				<div class="day"></div>
-				<div class="day"></div>
-				<div class="day"></div>
-				<div class="day"></div>
 				<div class="clear"></div>
 			</div>
 		</div>
