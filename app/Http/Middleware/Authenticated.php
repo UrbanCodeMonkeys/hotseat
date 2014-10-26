@@ -46,14 +46,21 @@ class Authenticated implements Middleware {
 	{
 		if ($this->auth->guest())
 		{
-			if ($request->ajax())
-			{
-				return $this->response->make('Unauthorized', 401);
-			}
-			else
-			{
-				return $this->response->redirectGuest('auth/login');
-			}
+			return $this->response->json([
+				'result' => 'nok',
+				'error' => [
+					'code' => 'not-logged-in',
+					'details' => 'Requires login'
+				]
+			]);
+			// if ($request->ajax())
+			// {
+			// 	return $this->response->make('Unauthorized', 401);
+			// }
+			// else
+			// {
+			// 	return $this->response->redirectGuest('auth/login');
+			// }
 		}
 
 		return $next($request);

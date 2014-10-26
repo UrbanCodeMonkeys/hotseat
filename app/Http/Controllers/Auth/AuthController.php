@@ -72,7 +72,7 @@ class AuthController extends Controller {
 	/**
 	 * Handle a login request to the application.
 	 *
-	 * @Post("auth/login")
+	 * @Post("/login")
 	 *
 	 * @param  LoginRequest  $request
 	 * @return Response
@@ -81,18 +81,28 @@ class AuthController extends Controller {
 	{
 		if ($this->auth->attempt($request->only('email', 'password')))
 		{
-			return redirect('/');
+			$result = [
+				'result' => 'ok',
+				'user' => $this->auth->user()->toArray(),
+			];
 		}
-
-		return redirect('/auth/login')->withErrors([
-			'email' => 'These credentials do not match our records.',
-		]);
+		else
+		{
+			$result = [
+				'result' => 'nok',
+				'error' => [
+					'code' => 'bad-login',
+					'details' => 'Login was incorrect'
+				],
+			];
+		}
+		return response()->json($result);
 	}
 
 	/**
 	 * Log the user out of the application.
 	 *
-	 * @Get("auth/logout")
+	 * @Get("/logout")
 	 *
 	 * @return Response
 	 */
@@ -100,7 +110,10 @@ class AuthController extends Controller {
 	{
 		$this->auth->logout();
 
-		return redirect('/');
+		$result = [
+				'result' => 'ok',
+			];
+		return response()->json($result);
 	}
 
 }

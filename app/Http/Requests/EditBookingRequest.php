@@ -2,7 +2,7 @@
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class BookingRequest extends FormRequest {
+class EditBookingRequest extends FormRequest {
 
 	/**
 	 * Get the validation rules that apply to the request.
@@ -12,9 +12,7 @@ class BookingRequest extends FormRequest {
 	public function rules()
 	{
 		return [
-			'desk_id' => 'required|exists:desks,id',
-			'user_id' => 'required|exists:users,id',
-			'start_date' => 'required'
+			'user_id' => 'required|exists:users,id'
 		];
 	}
 

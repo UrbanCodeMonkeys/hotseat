@@ -2,33 +2,26 @@
 
 use Illuminate\Routing\Controller;
 use Carbon\Carbon;
-use App\Contracts\Booking;
 use App\Contracts\Desk;
-use App\User;
-use App\Http\Requests\BookingRequest;
+use App\Http\Requests\DeskRequest;
 
 class DesksController extends Controller {
 
-	public function __construct(Carbon $carbon, Desk $desk, Booking $booking, User $user)
+	public function __construct(Carbon $carbon, Desk $desks)
 	{
 		$this->carbon = $carbon;
-		$this->desk = $desk;
-		$this->booking = $booking;
-		$this->user = $user;
+		$this->desks = $desks;
 	}
 
 	/**
 	 * @Get("/desks")
 	 */
-	public function index()
+	public function index(DeskRequest $request)
 	{
-		$now = $this->carbon->now();
-		$start_date = $now->addWeek();
-		if($start_date->day != 1) $start_date->previous(1);
-		$end_date = $start_date->copy()->next(0);
-		$desks = $this->desk->with(['bookings' => function($query) use ($start_date, $end_date)
+		$desks = $this->desks->with(['bookings' => function($query) use ($request)
 			{
-				$query->where('date', '>=', $start_date)->where('date', '<=', $end_date);	
+				$query->where('date', '>=', $request->input('start_date'))
+					->where('date', '<=', $request->input('end_date'));	
 			}])->get();
 		$result = [
 			'status' => 'ok',
@@ -38,45 +31,21 @@ class DesksController extends Controller {
 	}
 
 	/**
-	 * @Post("/desks/book")
+	 * @Get("/desks/{id}")
 	 */
-	public function book(BookingRequest $request)
+	public function show($id, DeskRequest $request)
 	{
-		$desk = $this->desk->findOrFail($request->input('desk_id'));
-		$user = $this->user->findOrFail($request->input('user_id'));
-
-		$start_date = $this->carbon->createFromFormat('Y-m-d', $request->input('start_date'));
-		$end_date = ($request->input('end_date')) ? $this->carbon->createFromFormat('Y-m-d', $request->input('end_date')) : $start_date->copy();
-		$bookings = [
-			'new' => [],
-			'occupied' => [],
-		];
-		$current_date = $start_date->copy();
-		while($current_date->diffInSeconds($end_date, false) >= 0)
-		{
-			if($booking = $this->booking->forDesk($desk)->onDate($current_date)->first())
+		$desk = $this->desks->with(['bookings' => function($query) use ($request)
 			{
-				$bookings['occupied'][] = $booking;
-			}
-			else
-			{
-				$booking = new $this->booking;
-				$booking->desk_id = $desk->id;
-				$booking->user_id = $user->id;
-				$booking->date = $current_date;
-				$booking->save();
-				$bookings['new'][] = $booking;
-			}
-			// $booking = $this->booking->create(array_merge(
-			// 	$booking_data,
-			// 	['date' => $current_date]
-			// ));
-			// $bookings[] = $booking;
-			$current_date->addWeek();
-		}
+				$query->where('date', '>=', $request->input('start_date'))
+					->where('date', '<=', $request->input('end_date'));	
+			}])
+			->where('id', '=', $id)
+			->first();
+		dd($desk);
 		$result = [
-			'status' => 'ok',
-			'bookings' => $bookings,
+			'result' => 'ok',
+			'desk' => $desk->toArray()
 		];
 		return response()->json($result);
 	}
