@@ -15,6 +15,7 @@ class RouteServiceProvider extends ServiceProvider {
 		'App\Http\Controllers\DesksController',
 		'App\Http\Controllers\Auth\AuthController',
 		'App\Http\Controllers\Auth\PasswordController',
+		'App\Http\Controllers\UsersController',
 	];
 
 	/**
