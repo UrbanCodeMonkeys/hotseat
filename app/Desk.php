@@ -14,7 +14,7 @@ class Desk extends Model implements DeskContract {
 
 	public function bookings()
 	{
-		$this->hasMany('Booking');
+		return $this->hasMany('App\Booking');
 	}
 
 }
