@@ -42,22 +42,37 @@ class DesksController extends Controller {
 	 */
 	public function book(BookingRequest $request)
 	{
-		$booking_data = [
-			'desk_id' => $request->input('desk_id'),
-			'user_id' => $request->input('user_id')
+		$desk = $this->desk->findOrFail($request->input('desk_id'));
+		$user = $this->user->findOrFail($request->input('user_id'));
+
+		$start_date = $this->carbon->createFromFormat('Y-m-d', $request->input('start_date'));
+		$end_date = ($request->input('end_date')) ? $this->carbon->createFromFormat('Y-m-d', $request->input('end_date')) : $start_date->copy();
+		$bookings = [
+			'new' => [],
+			'occupied' => [],
 		];
-		$current_date = $this->carbon->createFromFormat('Y-m-d', $request->input('start_date'));
-		$end_date = ($request->input('end_date')) ? $this->carbon->createFromFormat('Y-m-d', $request->input('end_date')) : $current_date;
-		$bookings = [];
-		while($current_date <= $end_date)
+		$current_date = $start_date->copy();
+		while($current_date->diffInSeconds($end_date, false) >= 0)
 		{
-			$booking = $this->booking->create(array_merge(
-				$booking_data,
-				['date' => $current_date]
-			));
-			$bookings[] = $booking;
+			if($booking = $this->booking->forDesk($desk)->onDate($current_date)->first())
+			{
+				$bookings['occupied'][] = $booking;
+			}
+			else
+			{
+				$booking = new $this->booking;
+				$booking->desk_id = $desk->id;
+				$booking->user_id = $user->id;
+				$booking->date = $current_date;
+				$booking->save();
+				$bookings['new'][] = $booking;
+			}
+			// $booking = $this->booking->create(array_merge(
+			// 	$booking_data,
+			// 	['date' => $current_date]
+			// ));
+			// $bookings[] = $booking;
 			$current_date->addWeek();
-			//$booking->save();
 		}
 		$result = [
 			'status' => 'ok',
