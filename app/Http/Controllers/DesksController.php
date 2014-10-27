@@ -42,7 +42,6 @@ class DesksController extends Controller {
 			}])
 			->where('id', '=', $id)
 			->first();
-		dd($desk);
 		$result = [
 			'result' => 'ok',
 			'desk' => $desk->toArray()
